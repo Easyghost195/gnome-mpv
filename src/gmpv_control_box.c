@@ -42,6 +42,7 @@ struct _GmpvControlBox
 	GtkBox parent_instance;
 	GtkWidget *play_button;
 	GtkWidget *stop_button;
+	GtkWidget *repeat_button;
 	GtkWidget *forward_button;
 	GtkWidget *rewind_button;
 	GtkWidget *next_button;
@@ -262,6 +263,7 @@ static void set_enabled(GmpvControlBox *box, gboolean enabled)
 	gtk_widget_set_sensitive(box->rewind_button, enabled);
 	gtk_widget_set_sensitive(box->stop_button, enabled);
 	gtk_widget_set_sensitive(box->play_button, enabled);
+	gtk_widget_set_sensitive(box->repeat_button, enabled);
 	gtk_widget_set_sensitive(box->forward_button, enabled);
 	gtk_widget_set_sensitive(box->next_button, enabled);
 }
@@ -417,6 +419,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	box->rewind_button = gtk_button_new();
 	box->next_button = gtk_button_new();
 	box->previous_button = gtk_button_new();
+	box->repeat_button = gtk_button_new();
 	box->fullscreen_button = gtk_button_new();
 	box->volume_button = gtk_volume_button_new();
 	box->seek_bar = gmpv_seek_bar_new();
@@ -446,6 +449,9 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	init_button(	box->previous_button,
 			"media-skip-backward-symbolic",
 			_("Previous Chapter") );
+	init_button(	box->repeat_button,
+			"media-playlist-repeat",
+			_("repeat") );
 	init_button(	box->fullscreen_button,
 			"view-fullscreen-symbolic",
 			_("Toggle Fullscreen") );
@@ -463,6 +469,7 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 	gtk_container_add(GTK_CONTAINER(box), box->stop_button);
 	gtk_container_add(GTK_CONTAINER(box), box->forward_button);
 	gtk_container_add(GTK_CONTAINER(box), box->next_button);
+	gtk_container_add(GTK_CONTAINER(box), box->repeat_button);
 	gtk_box_pack_start(GTK_BOX(box), box->seek_bar, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(box), box->volume_button);
 	gtk_container_add(GTK_CONTAINER(box), box->fullscreen_button);
@@ -504,6 +511,10 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 				G_CALLBACK(simple_signal_handler),
 				box );
 	g_signal_connect(	box->next_button,
+				"clicked",
+				G_CALLBACK(simple_signal_handler),
+				box );
+	g_signal_connect(	box->repeat_button,
 				"clicked",
 				G_CALLBACK(simple_signal_handler),
 				box );
