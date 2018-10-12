@@ -886,6 +886,22 @@ static void play_button_handler(GtkButton *button, gpointer data)
 	}
 }
 
+//handler for the repeat button
+static void repeat_button_handler(GtkButton *button, gpointer data)
+{
+	GmpvModel *model = GMPV_CONTROLLER(data)->model;
+	gboolean repeat = TRUE;
+	g_object_get(model, "repeat", &repeat, NULL);
+	if(repeat)
+	{
+		gmpv_model_repeat(model);
+	}
+	else
+	{
+		gmpv_model_pause(model);
+	}
+}
+
 static void stop_button_handler(GtkButton *button, gpointer data)
 {
 	gmpv_model_stop(GMPV_CONTROLLER(data)->model);
@@ -1067,4 +1083,3 @@ GmpvModel *gmpv_controller_get_model(GmpvController *controller)
 {
 	return controller->model;
 }
-
