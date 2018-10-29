@@ -118,6 +118,7 @@ static void fullscreen_handler(		GObject *object,
 					GParamSpec *pspec,
 					gpointer data );
 static void play_button_handler(GtkButton *button, gpointer data);
+static void repeat_button_handler(GtkButton *button, gpointer data);
 static void stop_button_handler(GtkButton *button, gpointer data);
 static void forward_button_handler(GtkButton *button, gpointer data);
 static void rewind_button_handler(GtkButton *button, gpointer data);
@@ -361,6 +362,7 @@ static void playlist_item_activated_handler(	GmpvView *view,
 
 	g_object_get(controller->model, "idle-active", &idle_active, NULL);
 	gmpv_model_play(controller->model);
+	gmpv_model_repeat(controller->model);
 
 	if(idle_active)
 	{
@@ -495,6 +497,10 @@ static void connect_signals(GmpvController *controller)
 	g_signal_connect(	controller->view,
 				"button-clicked::play",
 				G_CALLBACK(play_button_handler),
+				controller );
+	g_signal_connect(	controller->view,
+				"button-clicked::play",
+				G_CALLBACK(repeat_button_handler),
 				controller );
 	g_signal_connect(	controller->view,
 				"button-clicked::stop",
@@ -891,14 +897,16 @@ static void repeat_button_handler(GtkButton *button, gpointer data)
 {
 	GmpvModel *model = GMPV_CONTROLLER(data)->model;
 	gboolean repeat = TRUE;
-	g_object_get(model, "repeat", &repeat, NULL);
+	//g_object_get(model, "loop_file", &repeat, NULL);//Problème ici, quoi mettre en property ???
 	if(repeat)
 	{
+		printf("repeat\n");
 		gmpv_model_repeat(model);
 	}
 	else
 	{
-		gmpv_model_pause(model);
+		printf("pas repeat\n");
+		gmpv_model_repeat(model);
 	}
 }
 

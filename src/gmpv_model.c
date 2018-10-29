@@ -984,12 +984,21 @@ void gmpv_model_reset_keys(GmpvModel *model)
 
 void gmpv_model_play(GmpvModel *model)
 {
+	printf("Entré dans gmpv_model_play\n");
 	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "pause", FALSE);
 }
 
 void gmpv_model_pause(GmpvModel *model)
 {
+	printf("Entré dans gmpv_model_pause\n");
 	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "pause", TRUE);
+}
+
+void gmpv_model_repeat(GmpvModel *model)
+{
+	printf("Entré dans gmpv_model_repeat\n");
+	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "loop-file", TRUE);
+	//gmpv_mpv_set_property(GMPV_MPV(model->player), "loop-file", MPV_FORMAT_STRING,"inf");
 }
 
 void gmpv_model_stop(GmpvModel *model)
@@ -1165,4 +1174,3 @@ gchar *gmpv_model_get_current_path(GmpvModel *model)
 
 	return buf;
 }
-
