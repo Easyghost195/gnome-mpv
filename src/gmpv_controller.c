@@ -362,7 +362,7 @@ static void playlist_item_activated_handler(	GmpvView *view,
 
 	g_object_get(controller->model, "idle-active", &idle_active, NULL);
 	gmpv_model_play(controller->model);
-	gmpv_model_repeat(controller->model);
+	//gmpv_model_repeat(controller->model);
 
 	if(idle_active)
 	{
@@ -896,18 +896,8 @@ static void play_button_handler(GtkButton *button, gpointer data)
 static void repeat_button_handler(GtkButton *button, gpointer data)
 {
 	GmpvModel *model = GMPV_CONTROLLER(data)->model;
-	gboolean repeat = TRUE;
-	//g_object_get(model, "loop_file", &repeat, NULL);//Problème ici, quoi mettre en property ???
-	if(repeat)
-	{
-		printf("repeat\n");
-		gmpv_model_repeat(model);
-	}
-	else
-	{
-		printf("pas repeat\n");
-		gmpv_model_repeat(model);
-	}
+	printf("repeat\n");
+	gmpv_model_repeat(model);
 }
 
 static void stop_button_handler(GtkButton *button, gpointer data)

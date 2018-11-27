@@ -997,7 +997,16 @@ void gmpv_model_pause(GmpvModel *model)
 void gmpv_model_repeat(GmpvModel *model)
 {
 	printf("Entré dans gmpv_model_repeat\n");
-	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "loop-file", TRUE);
+	gboolean looping = gmpv_mpv_get_property_flag(GMPV_MPV(model->player), "loop-file");
+	if (looping){
+		printf("looping\n");
+		gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "loop-file", FALSE);
+	}
+	else{
+		printf("non looping\n");
+		gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "loop-file", TRUE);
+	}
+	//gmpv_mpv_get_property_flag(GMPV_MPV(model->player), "loop-file");
 	//gmpv_mpv_set_property(GMPV_MPV(model->player), "loop-file", MPV_FORMAT_STRING,"inf");
 }
 
