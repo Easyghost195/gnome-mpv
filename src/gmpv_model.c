@@ -994,9 +994,9 @@ void gmpv_model_pause(GmpvModel *model)
 	gmpv_mpv_set_property_flag(GMPV_MPV(model->player), "pause", TRUE);
 }
 
-void gmpv_model_repeat(GmpvModel *model)
+void gmpv_model_toggle_repeat(GmpvModel *model)
 {
-	printf("Entré dans gmpv_model_repeat\n");
+	printf("Entré dans gmpv_model_toggle_repeat\n");
 	gboolean looping = gmpv_mpv_get_property_flag(GMPV_MPV(model->player), "loop-file");
 	if (looping){
 		printf("looping\n");
