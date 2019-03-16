@@ -208,7 +208,7 @@ static gboolean gtk_to_mpv_volume(	GBinding *binding,
 {
 	gdouble from = g_value_get_double(from_value);
 	g_value_set_double(to_value, from*100);
-
+	printf("Barre de volume\n");
 	return TRUE;
 }
 
@@ -237,6 +237,20 @@ static void volume_changed_handler(	GtkVolumeButton *button,
 	g_signal_emit_by_name(data, "volume-changed", value*100.0);
 }
 
+static void mute_signal(GtkWidget *widget, GdkEvent *mute, gdouble value, gpointer data)
+{
+	guint typeClic = mute->button.button;
+	if(typeClic == 1){
+		printf("volume\n");
+		gtk_to_mpv_volume;
+		mpv_to_gtk_volume;
+		g_signal_emit_by_name(data, "volume-changed", value*100.0);
+	}
+	if(typeClic == 3 || typeClic == 2){
+		printf("Mute\n");
+		g_signal_emit_by_name(data, "volume-changed", 0);
+	}
+}
 static void simple_signal_handler(GtkWidget *widget, gpointer data)
 {
 	GmpvControlBox *box = data;
@@ -545,7 +559,11 @@ static void gmpv_control_box_init(GmpvControlBox *box)
 				"value-changed",
 				G_CALLBACK(volume_changed_handler),
 				box );
-}
+	g_signal_connect(	box->volume_button,
+				"button-press-event",
+				G_CALLBACK(mute_signal),
+				box );
+	}
 
 GtkWidget *gmpv_control_box_new(void)
 {
